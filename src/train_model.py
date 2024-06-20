@@ -1,7 +1,7 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 import joblib
-from logger import setup_logging
+from .logger import setup_logging
 
 logger = setup_logging()
 

@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
-from logger import setup_logging
+from .logger import setup_logging
 
 logger = setup_logging()
 

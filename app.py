@@ -1,14 +1,14 @@
 from flask import Flask, request, jsonify, render_template
 import joblib
-from logger import setup_logging
-from database import get_collection
+from src.logger import setup_logging
+from src.database import get_collection
 
 logger = setup_logging()
-
 app = Flask(__name__)
 
-MODEL_PATH = 'models/spam_classifier.pkl'
-VECTORIZER_PATH = 'models/vectorizer.pkl'
+MODEL_PATH = 'models\spam_classifier.pkl'
+# VECTORIZER_PATH = 'models\spam_classifier.pkl'
+VECTORIZER_PATH = 'models\vectorizer.pkl'
 
 # Load the model and vectorizer
 try:
