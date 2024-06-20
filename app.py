@@ -7,8 +7,8 @@ logger = setup_logging()
 app = Flask(__name__)
 
 MODEL_PATH = 'models\spam_classifier.pkl'
-# VECTORIZER_PATH = 'models\spam_classifier.pkl'
-VECTORIZER_PATH = 'models\vectorizer.pkl'
+VECTORIZER_PATH = 'models\spam_classifier.pkl'
+# VECTORIZER_PATH = 'models/vectorizer.pkl'
 
 # Load the model and vectorizer
 try:
