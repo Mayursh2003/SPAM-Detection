@@ -31,6 +31,6 @@ data = {
 df = pd.DataFrame(data)
 
 # Save to CSV
-df.to_csv('/data/spam_data1.csv', index=False)
+df.to_csv('data/spam_data.csv', index=False)
 
 print("Sample CSV file with 500 lines created successfully.")

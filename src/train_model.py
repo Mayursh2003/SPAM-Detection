@@ -1,35 +1,32 @@
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.ensemble import RandomForestClassifier
 import joblib
-from .logger import setup_logging
+import os
 
-logger = setup_logging()
+# Load the dataset
+df = pd.read_csv('data/spam_data.csv')
 
-def train_model(X_train, y_train):
-    try:
-        model = LogisticRegression()
-        model.fit(X_train, y_train)
-        logger.info('Model training completed')
-        return model
-    except Exception as e:
-        logger.error(f'Error during model training: {e}')
-        raise
+# Ensure the DataFrame is not empty
+if df.empty:
+    raise ValueError("The DataFrame is empty. Ensure the data preparation step was successful.")
 
-def evaluate_model(model, X_test, y_test):
-    try:
-        y_pred = model.predict(X_test)
-        accuracy = accuracy_score(y_test, y_pred)
-        logger.info(f'Model evaluation completed with accuracy: {accuracy * 100:.2f}%')
-        return accuracy
-    except Exception as e:
-        logger.error(f'Error during model evaluation: {e}')
-        raise
+# Ensure the text column is not empty
+if df['text'].isnull().sum() > 0 or df['text'].str.strip().eq('').sum() > 0:
+    raise ValueError("The text column contains empty or null values.")
 
-def save_model(model, vectorizer, model_path, vectorizer_path):
-    try:
-        joblib.dump(model, model_path)
-        joblib.dump(vectorizer, vectorizer_path)
-        logger.info(f'Model saved to {model_path} and vectorizer saved to {vectorizer_path}')
-    except Exception as e:
-        logger.error(f'Error saving model or vectorizer: {e}')
-        raise
+# Vectorize the text data
+vectorizer = TfidfVectorizer(stop_words='english')
+X = vectorizer.fit_transform(df['text'])
+
+# Train the model
+y = df['label']
+model = RandomForestClassifier()
+model.fit(X, y)
+
+# Save the model and vectorizer
+os.makedirs('models', exist_ok=True)
+joblib.dump(model, 'models/spam_classifier.pkl')
+joblib.dump(vectorizer, 'models/vectorizer.pkl')
+
+print("Model trained and saved successfully.")
